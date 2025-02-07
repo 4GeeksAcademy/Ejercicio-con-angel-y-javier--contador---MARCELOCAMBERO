@@ -5,14 +5,29 @@ import Contador from "./Contador";
 const Home = () => {
 
 	const [count, setCount] = useState(0);
+	const [counting, setCounting] = useState(true);
+
+
 	useEffect(() => {
-		const intervalId = setInterval(() => {setCount(count +1)}, 1000);
+		let intervalId = null;
+
+
+		if (counting) {
+			intervalId = setInterval(() => {setCount(count +1)}, 1000);
+		}else {clearInterval(intervalId)};
 		return () => clearInterval(intervalId);
-	}, [count]);
+	}, [count,counting]);
+
+	
+
+	
 
 	return (
 		<div>
 			<Contador number={count} />
+			<button onClick={() => setCount(0)}>Reset</button>
+			<button onClick={() => setCounting(!counting)}>Pausa</button>
+
 		</div>
 	);
 };
